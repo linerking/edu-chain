@@ -1,0 +1,165 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>P4 Drawing</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+      #refreshboard{
+        margin-top: 50px;
+        display:flex;
+        flex-direction:row;
+        flex-wrap: wrap;
+      }
+      .Larger{
+        display: flex;
+        flex-direction: column;
+        width: 140px;
+        border: solid 1px #e6f7ff;
+        border-radius: 14px;
+        margin:20px;
+        background: #e6f7ff;
+      }
+      .food{
+        font-size: 30px;
+        position: relative;
+        width:125px;
+        left: 15px;
+        color: #006699;
+      }
+      .time{
+        position:relative;
+        width:125px;
+        left: 15px;
+        margin-top:-7px;
+        font-size: 17px;
+        color: #006699;
+      }
+      .name{
+        width:125px;
+        position: relative;
+        left: 15px;
+        margin-top:-1px;
+        font-style:italic;
+        font-size:12px;
+        color: #006699;
+      }
+      .quota{
+        width:125px;
+        position: relative;
+        left: 15px;
+        margin-top: -1px;
+        font-size:18px;
+        color: #006699;
+      }
+      .title{
+        display:flex;
+        justify-content:center;
+        margin-top:105px;
+        font-size:50px;
+        height: 77px;
+        color: #006699;
+      }
+    </style>
+
+</head>
+<body>
+   <div class="title">
+      Exiting Groups
+    </div>
+  <div class="container" id="display">
+   
+    <div id = "refreshboard">
+      
+    </div>
+  </div> 
+</body>
+<script>
+window.onload = function(){
+      // getting the URL (you may want to use for Exercise 3)
+    var url = window.location.href;
+    var display = url.split("=")[1];
+    var socket = new WebSocket('wss:p3-websockets-linerking-906870065650856.codeanyapp.com/ws/draw');
+    var infor = null;
+    var data = "";
+    socket.onopen = function(){
+      socket.send("start");
+    }
+// triggered when receiving a message from the server
+socket.onmessage = function(receivedMessage) {
+	infor = receivedMessage.data.split("!");
+  if(infor[0]=="start" && display == "display"){
+    socket.send("data!"+data);
+  }else if(infor[0]=="add"){
+    data = data+infor[1]+"/";
+    refreshdisplay();
+    socket.send("data!"+data);
+  }else if(infor[0] == "data"){
+    data = data;
+    refreshdisplay();
+  }
+};
+  function refreshdisplay(){
+    var parent=document.getElementById("display");
+    var child=document.getElementById("refreshboard");
+    var groups = data.split("/")
+    console.log(groups)
+    parent.removeChild(child);
+    var para=document.createElement("div");
+    for (var i = 0; i<groups.length-1;i++){
+      var user = groups[i].split(",")
+      var name=document.createElement("div");
+      var food=document.createElement("div");
+      var quota=document.createElement("div");
+      var time=document.createElement("div");
+      var nametext = document.createTextNode(user[0]);
+      var foodtext = document.createTextNode(user[1]);
+      var quotatext = document.createTextNode(user[2]);
+      var timetext = document.createTextNode(user[3]);
+      var larger = document.createElement("div");
+      name.appendChild(nametext);
+      food.appendChild(foodtext);
+      quota.appendChild(quotatext);
+      time.appendChild(timetext);
+      larger.appendChild(food);
+      larger.appendChild(time); 
+      if(display == "version2"){
+    larger.appendChild(name);
+  }           
+      larger.appendChild(quota);
+      larger.className = "Larger";
+      food.className = "food";
+      name.className = "name";
+      time.className = "time";
+      quota.className = "quota";
+      para.appendChild(larger);
+    }
+    
+    para.setAttribute('id','refreshboard');
+    parent.appendChild(para)
+  }
+
+
+// use when sending a message to the server
+// to be broadcasted to all clients, please add a delay
+// var t=setTimeout(function(){socket.send("emmm")},1000);
+
+
+// notify console if socket closes unexpectedly
+socket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+}
+
+
+
+</script>
+</html>
+
+
