@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Employer_search</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+      .contain{
+        width:100%;
+        height:100%;
+        position:absolute;
+      }
+      form{
+        margin-top:20%;
+        margin-left:30%;
+        width:40%;
+        height:10%;
+      }
+      .submmit{
+        background:darkblue;
+        color:white;
+        width:19%;
+        border-radius:40px;
+      }
+    </style>
+
+</head>
+<body>
+   <div class= "contain">
+    <img src = {%static 'employer/bg.jpg'%} style="position:absolute; height:100%;width:100%;z-index:-1"></img> 
+   <form id = "employer_search" method="post">
+       <div class="pair" style="position:float">
+         <input class = "input" type="text" name="username" placeholder="学位证号......"style="width:80%;border-radius:40px;">
+         <input class = "submmit" type="submit" name="Login" value="查询">
+       </div>
+        {% csrf_token %}
+    </form>
+    </div>
+</body>
+<script>
+window.onload = function(){
+      // getting the URL (you may want to use for Exercise 3)
+    var url = window.location.href;
+    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    socket.onopen = function(){
+      socket.send("start");
+    }
+// triggered when receiving a message from the server
+socket.onmessage = function(receivedMessage) {
+ 
+};
+
+
+// use when sending a message to the server
+// to be broadcasted to all clients, please add a delay
+// var t=setTimeout(function(){socket.send("emmm")},1000);
+
+
+// notify console if socket closes unexpectedly
+socket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+}
+
+
+
+</script>
+</html>

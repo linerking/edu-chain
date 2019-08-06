@@ -4,147 +4,82 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>P4 Drawing</title>
+    <title>Login</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
 
     <style type="text/css">
-      .input{
-        height: 80px;
-        width: 400px;
-        margin: 25px;
+      .contain{
+        width:100%;
+        height:100%;
+        background:red;
+        position:absolute;
+        z-index:0;
       }
-      .inputboxes{
-        display: flex;
-        flex-direction: column;
+      form{
+        height:50%;
+        width:20%;
+        margin-left:40%;
+        margin-top:15%;
+        background-color: rgba(255, 186, 0, .8);
+        position:absolute;
+        z-index:1;
         
       }
+      .input{
+        width:70%;
+        margin-left:15%;
+      }
       .pair{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-      }
-      .labels{
-        color:#006699;
-        width: 90px;
-        align-self:center;
-      }
-      label{
-        font-size: 40px;
-      }
-      #submitbutton{
-        position: relative;
-        margin-top: 50px;
-        left: 170px;
-      }
-      #submit{
-        font-size:30px;
-      }
-      .container{
-        margin-top:100px;
-      }
-      .title{
-        color:#006699;
-        margin-top:150px;
-        display:flex;
-        justify-content:center;
-      }
-      .title2{
-        font-size:80px;
-        width: 500px;
+        margin-top:10%;
       }
       .line{
-        position:relative;
-        left:200px;
-        width:600px;
-        height:47px;
-        border-bottom: 1px solid black;
-      }
-      .join{
-        position:relative;
-        margin-top:40px;
-        left:540px;
-        font-size:26px;
-      }
-      .join:hover{
-        color:blue;
+        margin-top:5%
       }
     </style>
 
 </head>
 <body>
-  <div class = "title">
-    <div class = "title2">
-      Create Group
-    </div>
-  </div>
-  <div class="container">
-     <form id="add">
-       <div class= "inputboxes">
-                        <div class="pair">      
-                        <div class ="labels">
-                     <label>name </label>     
-                        </div>
-                        
-                        <input class = "input" type="text" name="name" id="name">
-                     </div>
-                    <div class="pair">
-                      <div class ="labels">
-                        <label>food </label>
-                      </div>
-                       <input class = "input" type="text" name="restaurant" id="restaurant">
-                     </div>
-                        
-                    <div class="pair">
-                      <div class ="labels">
-                        <label>quota</label>
-                      </div>
-                        <input class = "input" type="text" name="quota" id="quota">
-                    </div>
-                    <div class="pair">
-                      <div class ="labels">
-                        <label>time </label>
-                      </div>
-                        <input class = "input" type="text" name="time" id="time">
-                     </div>
-                    <div class="pair" id="submitbutton">
-                       <button  id="submit" >submit</button>                   
-                    </div>
-       </div>        
+   <div class= "contain">
+    <img src = {%static 'school/loginBg_v4.png'%} style="position:absolute; height:100%;width:100%;z-index:0;"></img>
+    <form id = "login_school" method="post">
+      <div class = "pair">
+        <img src = {%static 'school/logo.png'%} style="width:70%;margin-left:15%"></img>
+      </div>
+      <div class="line">
+         <HR size = 20 width = 80%>
+       </div>
+       <div class="pair">
+         <input class = "input" type="text" name="username" placeholder="UserName......">
+       </div>
+      <div class="pair">
+         <input class = "input" type="password" name="password" placeholder="Password......">
+       </div>
+        <div class="pair">
+         <input class = "input" type="submit" name="Login" value="Login..." style="background:blue;border:blue;color:white;">
+       </div>
+        {% csrf_token %}
     </form>
-    
-  </div>
-    <div class = "line">
     </div>
-  <div class = "join">
-    Join Existing Group
-  </div>
 </body>
-  
 <script>
-  window.onload = function(){
-        // getting the URL (you may want to use for Exercise 3)
+window.onload = function(){
+    function login_school(){
+      alert("login_school");
+    }
     var url = window.location.href;
-    var display = url.split("=")[1];
-    var socket = new WebSocket('wss:p3-websockets-linerking-906870065650856.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    socket.onopen = function(){
+      socket.send("start");
+    }
 // triggered when receiving a message from the server
 socket.onmessage = function(receivedMessage) {
-	// do something when you receive a message
-};
-  document.getElementById('add').addEventListener('submit', submitForm);
  
-        function submitForm(e) {
-            e.preventDefault();
-            var name = document.getElementById("name").value;
-            var restaurant = document.getElementById("restaurant").value;
-            var quota = document.getElementById("quota").value;
-            var time = document.getElementById("time").value;
-            socket.send("add!"+name+","+restaurant+","+quota+","+time);
-            alert("group created!");
-//           window.location.href="http://p3-websockets-linerking-906870065650856.codeanyapp.com/draw/";
-        }
+};
+
+
 // use when sending a message to the server
 // to be broadcasted to all clients, please add a delay
 // var t=setTimeout(function(){socket.send("emmm")},1000);
@@ -154,7 +89,9 @@ socket.onmessage = function(receivedMessage) {
 socket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
-  }
+  document.getElementById('login_school').addEventListener('submit', login_school);
+
+}
 
 
 

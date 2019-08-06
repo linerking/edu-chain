@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Ministry of Education of the People's republic of China</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+      .contain{
+        width:100%;
+        height:100%;
+        position:absolute;
+
+      }
+      .select{
+        width:100%;
+        height:100%;
+        position:absolute;
+        z-index:2;
+      }
+      select{
+        width: 20%;
+        margin-left:40%;
+        margin-top:20%;
+      }
+    </style>
+
+</head>
+<body>
+   <div class= "contain">
+     <img src = {%static 'school/school_bg.jpg'%} style="position:absolute; height:100%;width:100%;z-index:0;"></img>
+     <img src = {%static 'school/horizontal_logo.png'%} style="position:absolute;width:300px;margin:30px;"></img>
+     <form>
+      <div class="select">
+        <select>
+  <option value="姓名">姓名</option>
+  <option value="省份">省份</option>
+  <option value="身份证号">身份证号</option>
+  <option value="学校">学校</option>
+  <option value="市">市</option>
+  <option value="区/县">区/县</option>
+  <option value="年级">年级</option>
+  <option value="专业">专业</option>
+</select>
+       </div>
+</form>
+    </div>
+</body>
+<script>
+window.onload = function(){
+      // getting the URL (you may want to use for Exercise 3)
+    var url = window.location.href;
+    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    socket.onopen = function(){
+      socket.send("start");
+    }
+// triggered when receiving a message from the server
+socket.onmessage = function(receivedMessage) {
+ 
+};
+
+
+// use when sending a message to the server
+// to be broadcasted to all clients, please add a delay
+// var t=setTimeout(function(){socket.send("emmm")},1000);
+
+
+// notify console if socket closes unexpectedly
+socket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+}
+
+
+
+</script>
+</html>
