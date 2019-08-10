@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Change</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+      .contain{
+        width:100%;
+        height:100%;
+        position:absolute
+      }
+      .scroll_box{
+        position:absolute;
+        top:70px;
+        z-index:2;
+        width:200px;
+        background:rgba(100, 150, 250, .7);
+        overflow-y:scroll;
+        height:80%;
+      }
+      #name{
+        float:left;
+      }
+      #sort{
+        float:left;
+      }
+    </style>
+
+</head>
+<body>
+   <div class= "contain">
+     <img src = {%static 'Edu/Edu_bg.jpg'%} style="position:absolute; height:100%;width:100%;z-index:0;opacity:0.5"></img>
+     <img src = {%static 'Edu/Edu_bg2.jpg'%} style="position:absolute; height:100%;width:100%;z-index:0;opacity:0.5"></img>
+     <img src = {%static 'Edu/Edu_logo.png'%} style="position:absolute;z-index:1;top:20px;left:40px;width:200px;opacity:0.8"></img>
+     <div class="scroll_box">
+       <div style="width:100px" id="name">Name</div>
+       <div style="width:100px" id="sort">Sort</div>
+     </div>
+    </div>
+</body>
+<script>
+window.onload = function(){
+      // getting the URL (you may want to use for Exercise 3)
+    var url = window.location.href;
+    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    socket.onopen = function(){
+      socket.send("start");
+    }
+// triggered when receiving a message from the server
+socket.onmessage = function(receivedMessage) {
+ 
+};
+
+
+// use when sending a message to the server
+// to be broadcasted to all clients, please add a delay
+// var t=setTimeout(function(){socket.send("emmm")},1000);
+
+
+// notify console if socket closes unexpectedly
+socket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+}
+
+
+
+</script>
+</html>

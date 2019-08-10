@@ -1,0 +1,5 @@
+[INFO] [2019-08-06 15:17:06] AbstractApplicationContext.prepareRefresh(583) | Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@73f792cf: startup date [Tue Aug 06 15:17:06 CST 2019]; root of context hierarchy
+[INFO] [2019-08-06 15:17:06] XmlBeanDefinitionReader.loadBeanDefinitions(317) | Loading XML bean definitions from class path resource [applicationContext.xml]
+[INFO] [2019-08-06 15:17:08] Service.newSeq(916) | New Seqfd5c97c44e1c49d38650a78af1e55cc7
+[INFO] [2019-08-06 15:17:08] Service.newSeq(916) | New Seqf73fb6bb7c834f758cc0b55e5bf480bf
+[INFO] [2019-08-06 15:17:08] ChannelEthereumService.send(58) | bcos request, seq:f73fb6bb7c834f758cc0b55e5bf480bf, method:getClientVersion
