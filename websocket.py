@@ -159,7 +159,7 @@ async def tchr_check_course(websocket, course):
     query: str = ("SELECT name FROM tab_stud_course_info WHERE course_code={}".format(course))
     cursor.execute(query)
 
-    student_list = [for student in cursor]
+    student_list = [student for student in cursor]
 
     resp = dict(state='web', action='get', infor='studentlist', result=student_list)
 
@@ -387,7 +387,7 @@ async def firm_check_certificate(websocket, certificationID):
 
     cursor.execute(query)
 
-    certificate_list = [for certification in cursor]
+    certificate_list = [certification for certification in cursor]
     if len(certificate_list) == 0:
         resp['result'] = 'failed'
     else:
@@ -423,6 +423,12 @@ async def process(websocket):
                 await sch_change_tchr(websocket, recv['target'], recv['orig_course'], recv['name'], recv['target_course'])
         elif recv.has_key('certificationID'):
             await firm_check_certificate(websocket, recv['certificationID'])
+
+start_server = websockets.serve(process, "0.0.0.0", 8765)
+
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()
+
 
 
 
