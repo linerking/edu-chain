@@ -42,18 +42,45 @@
         {% csrf_token %}
     </form>
     </div>
+<form style="display:none"id = "post">
+  {% csrf_token %}
+  </form>
 </body>
 <script>
 window.onload = function(){
-      // getting the URL (you may want to use for Exercise 3)
+var message = {
+  state:"web", 
+  action:"get", 
+  infor:"certification", 
+  target:"all" ,
+  certificatoinID:{{ID|safe}} 
+}
     var url = window.location.href;
     var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
     socket.onopen = function(){
-      socket.send("start");
+      socket.send(JSON.stringify(message));
     }
 // triggered when receiving a message from the server
 socket.onmessage = function(receivedMessage) {
- 
+ data = JSON.parse(receivedMessage.data)
+ if (data.state == "employerserver"){
+var temp =document.getElementById("post");      
+temp.action = "../employer_search_result/";      
+temp.method = "post";      
+temp.style.display = "none";
+var PARAMS = {
+	'result': data.result
+};
+for (var x in PARAMS) {      
+    var opt = document.createElement("textarea");      
+    opt.name = x;
+    opt.type = "hidden";
+    opt.value = PARAMS[x];       
+    temp.appendChild(opt);      
+}       
+temp.submit();
+$(temp).remove();
+ }
 };
 
 

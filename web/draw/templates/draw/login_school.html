@@ -44,7 +44,7 @@
 <body>
    <div class= "contain">
     <img src = {%static 'school/loginBg_v4.png'%} style="position:absolute; height:100%;width:100%;z-index:0;"></img>
-    <form id = "login_school" method="post">
+    <form id = "login_school" method="post" action="../school_login/">
       <div class = "pair">
         <img src = {%static 'school/logo.png'%} style="width:70%;margin-left:15%"></img>
       </div>
@@ -76,7 +76,7 @@ window.onload = function(){
     }
 // triggered when receiving a message from the server
 socket.onmessage = function(receivedMessage) {
- 
+ alert("recive")
 };
 
 
