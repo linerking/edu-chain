@@ -29,7 +29,7 @@ def employer_search_result(request):
 @login_required 
 @permission_required('auth.employer')   
 def employer_search(request):
-    ID = request.POST.get("username")
+    ID = request.POST.get("user")
     return render(request, 'draw/employer_search.html', {"ID":ID})
   
 @login_required

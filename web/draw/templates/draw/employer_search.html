@@ -36,7 +36,7 @@
     <img src = {%static 'employer/bg.jpg'%} style="position:absolute; height:100%;width:100%;z-index:-1"></img> 
    <form id = "employer_search" method="post">
        <div class="pair" style="position:float">
-         <input class = "input" type="text" name="username" placeholder="学位证号......"style="width:80%;border-radius:40px;">
+         <input class = "input" type="text" name="user" placeholder="学位证号......"style="width:80%;border-radius:40px;">
          <input class = "submmit" type="submit" name="Login" value="查询">
        </div>
         {% csrf_token %}
@@ -53,17 +53,20 @@ var message = {
   action:"get", 
   infor:"certification", 
   target:"all" ,
-  certificatoinID:{{ID|safe}} 
+  certificationID:{{ID|safe}} 
 }
     var url = window.location.href;
-    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss:blockchain-906870065650856.codeanyapp.com/ws/draw');
     socket.onopen = function(){
-      socket.send(JSON.stringify(message));
+    if (message.certificationID){
+          socket.send(JSON.stringify(message));
+        }
+    
     }
 // triggered when receiving a message from the server
 socket.onmessage = function(receivedMessage) {
  data = JSON.parse(receivedMessage.data)
- if (data.state == "employerserver"){
+ if (data.state == "employerserver" && data.result){
 var temp =document.getElementById("post");      
 temp.action = "../employer_search_result/";      
 temp.method = "post";      

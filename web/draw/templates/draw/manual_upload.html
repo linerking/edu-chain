@@ -64,7 +64,7 @@ state:"web",
 action:"get", 
 infor:"studentlist", 
 target:"course", 
-cource:{{course|safe}} 
+course:{{course|safe}} 
 };
 var search = { 
 state:"web", 
@@ -80,18 +80,20 @@ target:"grade",
 infor:"student", 
 course:{{course|safe}} 
 };  
-
+var onname;
 function NameFunction(){
           alert(this.innerHTML);
-          studentlist.name = this.innerHTML;
-          socket.send(JSON.stringify(studentlist));
+          search.name = this.innerHTML;
+          socket.send(JSON.stringify(search));
           var thename = document.getElementById("thename");
           thename.innerHTML = "name:" + this.innerHTML
+          onname = this.innerHTML;
         };
 var submmit = document.getElementById("submmit");
 submmit.onclick = function(){
   var grades = document.getElementById("grade");
   alert(grades.value);
+  change.name = onname;
   change.grade = grades.value;
   socket.send(JSON.stringify(change));
 }
@@ -99,7 +101,7 @@ submmit.onclick = function(){
   
 
     var url = window.location.href;
-    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss:blockchain-906870065650856.codeanyapp.com/ws/draw');
     socket.onopen = function(){
     socket.send(JSON.stringify(studentlist));
     }
