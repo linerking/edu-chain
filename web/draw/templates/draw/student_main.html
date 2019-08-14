@@ -55,7 +55,7 @@ window.onload = function(){
     window.location.href= "https://edu-chain-906870065650856.codeanyapp.com/draw/student_infor/"
    } // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
-    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss:blockchain-906870065650856.codeanyapp.com/ws/draw');
     socket.onopen = function(){
       socket.send("start");
     }

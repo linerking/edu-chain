@@ -70,9 +70,9 @@ window.onload = function(){
       alert("login_school");
     }
     var url = window.location.href;
-    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss:blockchain-906870065650856.codeanyapp.com/ws/draw');
     socket.onopen = function(){
-      socket.send("start");
+
     }
 // triggered when receiving a message from the server
 socket.onmessage = function(receivedMessage) {

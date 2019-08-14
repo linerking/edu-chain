@@ -50,18 +50,23 @@ state:"web",
 action:"get", 
 infor:"student", 
 target:"all",
-name:{{infor|safe}}
+// name:{{infor|safe}}
+name:"student1"
 } 
 
       // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
-    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss:blockchain-906870065650856.codeanyapp.com/ws/draw');
     socket.onopen = function(){
-      socket.send(JSON.stringify(search));
+    alert("send")
+    socket.send(JSON.stringify(search));
     }
 // triggered when receiving a message from the server
+    
 socket.onmessage = function(receivedMessage) {
+  console.log(receivedMessage.data)
   var data = JSON.parse(receivedMessage.data);
+  console.log(data)
   var name = document.getElementById("name");
   name.innerHTML= "Name: " + data.name;
   var id = document.getElementById("id");
@@ -76,6 +81,7 @@ socket.onmessage = function(receivedMessage) {
   teacher.innerHTML="Teacher: " + data.teacher;
   var grade = document.getElementById("grade");
   grade.innerHTML="Grade: " + data.grade;
+  
 };
 
 
