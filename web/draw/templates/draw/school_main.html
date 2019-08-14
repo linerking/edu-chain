@@ -1,0 +1,99 @@
+<!-- This page is for the teacher to choose the way (manual/excel) to upload
+the student grades -->
+
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Choose way</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+      .contain{
+        width:100%;
+        height:100%;
+        background:purple;
+        position:absolute
+      }
+      .btn1{
+        z-index:3;
+        position:absolute;
+        right:20%;
+        top:30%;
+        height:300px;
+        width:300px;
+        font-size:50px;
+        background:black;
+        border:black;
+        color:white;
+      }
+      .btn2{
+        z-index:3;
+        position:absolute;
+        left:20%;
+        top:30%;
+        height:300px;
+        width:300px;
+        font-size:50px;
+        background:black;
+        border:black;
+        color:white;
+      }
+    </style>
+
+</head>
+<body>
+   <div class= "contain">
+     <img src = {%static 'school/school_bg.jpg'%} style="position:absolute; height:100%;width:100%;z-index:0;"></img>
+     <img src = {%static 'school/horizontal_logo.png'%} style="position:absolute;width:300px;margin:30px;"></img>
+     <button type="button" class="btn btn-primary btn-lg btn2" id="student">student infor</button>
+     <button type="button" class="btn btn-primary btn-lg btn1" id="staff">staff infor</button>
+       
+    </div>
+</body>
+<script>
+window.onload = function(){
+  var student = document.getElementById("student")
+  student.onclick = function(){
+    window.location.href= "https://edu-chain-906870065650856.codeanyapp.com/draw/student_search/"
+  }
+  var teacher = document.getElementById("staff")
+  teacher.onclick = function(){
+    window.location.href= "https://edu-chain-906870065650856.codeanyapp.com/draw/teacher_search/"
+  }
+  
+  
+      // getting the URL (you may want to use for Exercise 3)
+    var url = window.location.href;
+    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    socket.onopen = function(){
+      socket.send("start");
+    }
+// triggered when receiving a message from the server
+socket.onmessage = function(receivedMessage) {
+ 
+};
+
+
+// use when sending a message to the server
+// to be broadcasted to all clients, please add a delay
+// var t=setTimeout(function(){socket.send("emmm")},1000);
+
+
+// notify console if socket closes unexpectedly
+socket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+}
+
+
+
+</script>
+</html>

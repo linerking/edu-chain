@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+      .contain{
+        width:100%;
+        height:100%;
+        background:red;
+        position:absolute;
+        z-index:0;
+      }
+      form{
+        height:50%;
+        width:20%;
+        margin-left:40%;
+        margin-top:15%;
+        background-color: rgba(255, 186, 0, .8);
+        position:absolute;
+        z-index:1;
+        
+      }
+      .input{
+        width:70%;
+        margin-left:15%;
+      }
+      .pair{
+        margin-top:10%;
+      }
+      .line{
+        margin-top:5%
+      }
+    </style>
+
+</head>
+<body>
+   <div class= "contain">
+    <img src = {%static 'school/loginBg_v4.png'%} style="position:absolute; height:100%;width:100%;z-index:0;"></img>
+    <form id = "login_school" method="post" action="../school_login/">
+      <div class = "pair">
+        <img src = {%static 'school/logo.png'%} style="width:70%;margin-left:15%"></img>
+      </div>
+      <div class="line">
+         <HR size = 20 width = 80%>
+       </div>
+       <div class="pair">
+         <input class = "input" type="text" name="username" placeholder="UserName......">
+       </div>
+      <div class="pair">
+         <input class = "input" type="password" name="password" placeholder="Password......">
+       </div>
+        <div class="pair">
+         <input class = "input" type="submit" name="Login" value="Login..." style="background:blue;border:blue;color:white;">
+       </div>
+        {% csrf_token %}
+    </form>
+    </div>
+</body>
+<script>
+window.onload = function(){
+    function login_school(){
+      alert("login_school");
+    }
+    var url = window.location.href;
+    var socket = new WebSocket('wss:edu-chain-906870065650856.codeanyapp.com/ws/draw');
+    socket.onopen = function(){
+      socket.send("start");
+    }
+// triggered when receiving a message from the server
+socket.onmessage = function(receivedMessage) {
+ alert("recive")
+};
+
+
+// use when sending a message to the server
+// to be broadcasted to all clients, please add a delay
+// var t=setTimeout(function(){socket.send("emmm")},1000);
+
+
+// notify console if socket closes unexpectedly
+socket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+  document.getElementById('login_school').addEventListener('submit', login_school);
+
+}
+
+
+
+</script>
+</html>
